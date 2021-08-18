@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Classes;
+
 use App\Classes\Connection;
 use PDOException;
 
@@ -42,7 +43,7 @@ class User
         header("Location:../../article.php");
       }
     } catch (PDOException $e) {
-      echo $querry . "<br>" . $e->getMessage();
+      echo $e->getMessage();
     }
   }
 
@@ -50,31 +51,33 @@ class User
 
   public function login(string $username, string $password)
   {
-
+    session_start();
     $db = new Connection();
     $conn = $db->connect();
 
     try {
 
       if (filter_var($username, FILTER_VALIDATE_EMAIL)) {
-        $querry = "SELECT email, password FROM users WHERE email= :username AND password= :password ";
+        $querry = "SELECT email, password,id FROM users WHERE email= :username AND password= :password ";
         // use exec() because no results are returned
         $stmt = $conn->prepare($querry);
         $stmt->execute(['username' => $username, 'password' => $password]);
         $user = $stmt->fetch();
         if (!empty($user)) {
+          $_SESSION['id'] = $user['id'];
           header("Location:../../article.php");
-          exit();
+          // exit();
         }
       } else {
-        $querry = "SELECT username, password FROM users WHERE username= :username AND password= :password ";
+        $querry = "SELECT username, password,id FROM users WHERE username= :username AND password= :password ";
         // use exec() because no results are returned
         $stmt = $conn->prepare($querry);
         $stmt->execute(['username' => $username, 'password' => $password]);
         $user = $stmt->fetch();
         if (!empty($user)) {
+          $_SESSION['id'] = $user['id'];
           header("Location:../../article.php");
-          exit();
+          // exit();
         }
       }
 

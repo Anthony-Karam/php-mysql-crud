@@ -3,16 +3,15 @@
 use App\Classes\User;
 
 require_once 'vendor/autoload.php';
+// session_start();
 
-
-
+// $createUser= new User();
 if(isset( $_POST['username'],$_POST['email'],$_POST['password'],$_POST['signUp'])){
     $user= new User();
        $username=$_POST['username'];
+	   $email=$_POST['email'];
         $password=$_POST['password'];
-        $email=$_POST['email'];
-
-		$user->store( $username,$ $password, $email);
+		$user->store( $username, $email, $password);
 
     }
 
@@ -22,9 +21,10 @@ if(isset( $_POST['username'],$_POST['email'],$_POST['password'],$_POST['signUp']
 
         $user= new User();
  
-         $user->login($username,$password);
-        }
-
+      $user->login($username,$password)	;
+	  $user_id = $_SESSION['id'];
+		
+		}
 
 ?>
 
@@ -44,11 +44,7 @@ if(isset( $_POST['username'],$_POST['email'],$_POST['password'],$_POST['signUp']
 		<form action="" method="post">
 			<h1>Create Account</h1>
 			<div class="social-container">
-				<!-- <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-				<a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-				<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a> -->
 			</div>
-			<!-- <span>or use your email for registration</span> -->
 			<input type="text" placeholder="User name" name="username" />
 			<input type="email" placeholder="Email" name="email" />
 			<input type="password" placeholder="Password" name="password" />
@@ -59,14 +55,10 @@ if(isset( $_POST['username'],$_POST['email'],$_POST['password'],$_POST['signUp']
 		<form action="" method="post">
 			<h1>Sign in</h1>
 			<div class="social-container">
-				<!-- <a href="#" class="social"><i class="fab fa-facebook-f"></i></a> -->
-				<!-- <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a> -->
-				<!-- <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a> -->
 			</div>
-			<!-- <span>or use your account</span> -->
 			<input type="text" placeholder="Email or Username" name="username" />
 			<input type="password" placeholder="Password" name="password"/>
-			<!-- <a href="#">Forgot your password?</a> -->
+			
 			<button name='signIn'>Sign In</button>
 		</form>
 	</div>
