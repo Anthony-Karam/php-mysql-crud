@@ -1,14 +1,15 @@
 <?php
 
 use App\Classes\Data;
+use App\Classes\User;
 
 session_start();
 
 require_once 'vendor/autoload.php';
-
+$username = $_SESSION['username'];
 $id = $_SESSION['id'];
-
 $article = new Data();
+
 // print_r($result);
 $title = $_POST['title'];
 $overview = $_POST['overview'];
@@ -38,6 +39,7 @@ $result = $article->getData();
 </head>
 
 <body>
+  <h1>Welcome <?php echo $username ?></h1>
   <table>
     <thead>
       <tr>
@@ -58,10 +60,7 @@ $result = $article->getData();
 
         if (isset($_POST['delete'])) {
           $article->deleteData($articleId);
-          // $result=$article->getData();
         }
-        // $article->getData();
-
 
       ?>
 
@@ -71,7 +70,8 @@ $result = $article->getData();
           <td><?php echo $overview; ?></td>
           <td><?php echo $content; ?></td>
           <td><?php echo $date; ?></td>
-          <td><input type="submit" value="Edit" name="edit"></td>
+          <td><button type="submit" value="Edit" name="edit"><a href="edit.php?articleId=<?php echo $articleId; ?>">Edit</button></td>
+          <!-- <td><input type="submit" value="Edit" name="edit"></td> -->
           <td><input type="submit" value="Delete" name="delete"></td>
 
         </form>
@@ -83,10 +83,7 @@ $result = $article->getData();
 
   </table>
 
-  <button style="width: 10%; margin:5em 40em; height:2em">
-
-    <a href="./addArticle.php">Add New Article</a>
-  </button>
+  <button style="width: 10%; margin:5em 40em; height:2em"><a href="./addArticle.php">Add New Article</a></button>
 </body>
 
 </html>

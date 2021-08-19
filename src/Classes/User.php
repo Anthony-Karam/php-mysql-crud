@@ -64,6 +64,8 @@ class User
         $stmt->execute(['username' => $username, 'password' => $password]);
         $user = $stmt->fetch();
         if (!empty($user)) {
+          $_SESSION['username'] = $user['username'];
+
           $_SESSION['id'] = $user['id'];
           header("Location:../../article.php");
           // exit();
@@ -75,6 +77,7 @@ class User
         $stmt->execute(['username' => $username, 'password' => $password]);
         $user = $stmt->fetch();
         if (!empty($user)) {
+          $_SESSION['username'] = $user['username'];
           $_SESSION['id'] = $user['id'];
           header("Location:../../article.php");
           // exit();
