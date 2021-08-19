@@ -61,7 +61,9 @@ $result = $article->getData();
         if (isset($_POST['delete'])) {
           $article->deleteData($articleId);
         }
-
+        if (isset($_POST['export'])) {
+          $article->exportProductDatabase($result);
+        }
       ?>
 
         <form action="article.php" method="post">
@@ -73,6 +75,7 @@ $result = $article->getData();
           <td><button type="submit" value="Edit" name="edit"><a href="edit.php?articleId=<?php echo $articleId; ?>">Edit</button></td>
           <!-- <td><input type="submit" value="Edit" name="edit"></td> -->
           <td><input type="submit" value="Delete" name="delete"></td>
+          <td><input type="submit" value="Export" name="export"></td>
 
         </form>
     </tr>

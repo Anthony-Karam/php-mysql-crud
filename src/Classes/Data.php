@@ -45,7 +45,24 @@ class Data
         }
     }
 
+    public function exportProductDatabase($result)
+    {
+        $timestamp = time();
+        $filename = 'Export_excel_' . $timestamp . '.xls';
 
+        header("Content-Type: application/vnd.ms-excel");
+        header("Content-Disposition: attachment; filename=\"$filename\"");
+
+        $isPrintHeader = false;
+        foreach ($result as $row) {
+            if (!$isPrintHeader) {
+                echo implode("\t", array_keys($row)) . "\n";
+                $isPrintHeader = true;
+            }
+            echo implode("\t", array_values($row)) . "\n";
+        }
+        exit();
+    }
 
 
 
