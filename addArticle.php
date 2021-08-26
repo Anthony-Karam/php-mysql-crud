@@ -17,7 +17,7 @@ $date = $_POST['date'];
 
 if (!empty($title) && !empty($overview) && !empty($content) && !empty($date)) {
 
-  $article->insertData($title, $overview, $content, $date, $id);
+  $article->insertArticle($title, $overview, $content, $date, $id);
 }
 
 ?>

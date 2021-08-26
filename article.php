@@ -1,30 +1,24 @@
 <?php
 
 use App\Classes\Data;
-use App\Classes\User;
 
 session_start();
-
 require_once 'vendor/autoload.php';
+
 $username = $_SESSION['username'];
 $id = $_SESSION['id'];
+
 $article = new Data();
+$number_of_results = $article->getTotalNumber($id);
 
-// print_r($result);
-$title = $_POST['title'];
-$overview = $_POST['overview'];
-$content = $_POST['content'];
-$date = $_POST['date'];
-
-if (!empty($title) && !empty($overview) && !empty($content) && !empty($date)) {
-
-  $article->insertData($title, $overview, $content, $date, $id);
+if (!isset($_GET['page'])) {
+  $page = 1;
+} else {
+  $page = $_GET['page'];
 }
-
-
-
-$result = $article->getData();
-
+$result = $article->getAllArticles($id, $page);
+$results_per_page = 10;
+$number_of_pages = ceil($number_of_results / $results_per_page);
 ?>
 
 <!DOCTYPE html>
@@ -40,6 +34,7 @@ $result = $article->getData();
 
 <body>
   <h1>Welcome <?php echo $username ?></h1>
+  <!-- <h1><?php echo $pagination ?></h1> -->
   <table>
     <thead>
       <tr>
@@ -59,7 +54,7 @@ $result = $article->getData();
         $date = $ref['date'];
 
         if (isset($_POST['delete'])) {
-          $article->deleteData($articleId);
+          $article->deleteArticle($articleId);
         }
         if (isset($_POST['export'])) {
           $article->exportProductDatabase($result);
@@ -72,21 +67,31 @@ $result = $article->getData();
           <td><?php echo $overview; ?></td>
           <td><?php echo $content; ?></td>
           <td><?php echo $date; ?></td>
+
           <td><button type="submit" value="Edit" name="edit"><a href="edit.php?articleId=<?php echo $articleId; ?>">Edit</button></td>
           <!-- <td><input type="submit" value="Edit" name="edit"></td> -->
           <td><input type="submit" value="Delete" name="delete"></td>
-          <td><input type="submit" value="Export" name="export"></td>
-
         </form>
     </tr>
   <?php
+
       }
   ?>
+
   </tr>
 
   </table>
+  <?php
 
+  for ($page = 1; $page <= $number_of_pages; $page++) {
+    echo ' <a  href ="article.php?page=' . $page . '"style="color:red; display:inline-block">'  . $page . '</a>';
+  }
+  ?>
+  <form action="article.php" method="post">
+    <td><input type="submit" value="Export" name="export" style="width: 10%; margin:1em 40em; height:2em"></td>
+  </form>
   <button style="width: 10%; margin:5em 40em; height:2em"><a href="./addArticle.php">Add New Article</a></button>
+
 </body>
 
 </html>

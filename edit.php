@@ -7,7 +7,7 @@ $articleId = $_GET['articleId'];
 
 
 $update = new Data();
-$result = $update->getSingleData($articleId);
+$result = $update->getSingleArticle($articleId);
 
 $title = $_POST['title'];
 $overview = $_POST['overview'];
